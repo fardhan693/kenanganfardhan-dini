@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Our Love Story</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --pink: #f8b4c0;
+            --rose: #d83868;
+            --soft: #fff0f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--soft);
+            color: #444;
+        }
+
+        section {
+            padding: 80px 20px;
+            text-align: center
+        }
+
+        h1,
+        h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--rose)
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 15px
+        }
+
+        #profileImg {
+            width: 160px;
+            height: auto;
+        }
+
+        .upload label {
+            display: inline-block;
+            background: var(--pink);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .upload input {
+            display: none
+        }
+
+        /* OPENING */
+        #opening {
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        #opening h1 {
+            font-size: 3em;
+            color: white
+        }
+
+        #opening button {
+            margin-top: 20px;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            background: var(--pink);
+            color: white;
+            cursor: pointer;
+        }
+
+        /* BOX */
+        .box {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .1);
+        }
+
+        /* GALLERY */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal img {
+            max-width: 90%
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--rose);
+            color: white;
+            padding: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- OPENING -->
+    <section id="opening">
+        <h1>Our Love Story</h1>
+        <button onclick="document.getElementById('profile').scrollIntoView()">Mulai Cerita</button>
+
+        <!-- ⭐ GANTI FOTO OPENING -->
+        <div class="upload">
+            <label>Ganti Foto Opening
+                <input type="file" onchange="uploadImage(this,'openingBg')">
+            </label>
+        </div>
+    </section>
+
+    <!-- PROFIL -->
+    <section id="profile">
+        <h1>Fardhan & Dini Wulandari</h1>
+        <img id="profileImg">
+        <p>“Dari pertemuan sederhana, lahirlah cinta yang luar biasa.”</p>
+
+        <!-- ⭐ FOTO PROFIL -->
+        <div class="upload">
+            <label>Ganti Foto Profil
+                <input type="file" onchange="uploadImage(this,'profileImg')">
+            </label>
+        </div>
+    </section>
+
+    <!-- CERITA AWAL -->
+    <section>
+        <div class="box">
+            <h2>Pertama Kali Kita Bertemu</h2>
+            <textarea id="storyMeet" placeholder="Tulis cerita pertama bertemu..."
+                style="width:100%;height:120px"></textarea>
+        </div>
+    </section>
+
+    <!-- FIRST DATE -->
+    <section>
+        <div class="box">
+            <h2>First Date</h2>
+            <img id="firstDateImg">
+            <p>Hari Paling Special Di Hidup Kita.</p>
+
+            <!-- ⭐ FOTO FIRST DATE -->
+            <div class="upload">
+                <label>Ganti Foto First Date
+                    <input type="file" onchange="uploadImage(this,'firstDateImg')">
+                </label>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALERI -->
+    <section>
+        <h2>Galeri Kenangan</h2>
+
+        <!-- ⭐ TAMBAH FOTO GALERI -->
+        <div class="upload">
+            <label>Tambah Foto Galeri
+                <input type="file" onchange="addGallery(this)">
+            </label>
+        </div>
+
+        <div class="gallery" id="gallery"></div>
+    </section>
+
+    <!-- MODAL -->
+    <div class="modal" id="modal" onclick="this.style.display='none'">
+        <img id="modalImg">
+    </div>
+
+    <!-- CATATAN CINTA -->
+    <section>
+        <div class="box">
+            <h2>Catatan Cinta ✍️</h2>
+            <textarea id="loveNote" placeholder="Tulis pesan cinta..." style="width:100%;height:150px"></textarea>
+        </div>
+    </section>
+
+    <footer>
+        <h2>Aku memilihmu, hari ini, besok, dan selamanya ❤️</h2>
+    </footer>
+
+    <script>
+        /* UPLOAD FOTO */
+        function uploadImage(input, key) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                if (key === "openingBg") {
+                    document.getElementById("opening").style.backgroundImage = `url(${e.target.result})`;
+                } else {
+                    document.getElementById(key).src = e.target.result;
+                }
+                localStorage.setItem(key, e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+
+        /* LOAD FOTO */
+        ["profileImg", "firstDateImg"].forEach(id => {
+            const data = localStorage.getItem(id);
+            if (data) document.getElementById(id).src = data;
+        });
+        const bg = localStorage.getItem("openingBg");
+        if (bg) document.getElementById("opening").style.backgroundImage = `url(${bg})`;
+
+        /* GALERI */
+        const gallery = document.getElementById("gallery");
+        const savedGallery = JSON.parse(localStorage.getItem("gallery") || "[]");
+        savedGallery.forEach(src => createImg(src));
+
+        function addGallery(input) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                savedGallery.push(e.target.result);
+                localStorage.setItem("gallery", JSON.stringify(savedGallery));
+                createImg(e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+        function createImg(src) {
+            const img = document.createElement("img");
+            img.src = src;
+            img.onclick = () => { modal.style.display = "flex"; modalImg.src = src }
+            gallery.appendChild(img);
+        }
+
+        /* CATATAN */
+        ["storyMeet", "loveNote"].forEach(id => {
+            const el = document.getElementById(id);
+            el.value = localStorage.getItem(id) || "";
+            el.oninput = () => localStorage.setItem(id, el.value);
+        });
+    </script>
+
+</body>
+
+</html>
